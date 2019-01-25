@@ -1,7 +1,8 @@
 package com.jeeconf;
 
 import com.jeeconf.annotations.*;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.fastclasspathscanner.ClassInfo;
+import io.github.fastclasspathscanner.FastClasspathScanner;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -42,11 +43,13 @@ class DependenciesConfig {
     }
 
     private Stream<? extends Class<?>> beanClassesStream() {
-        return new FastClasspathScanner(path)
+        return new FastClasspathScanner()
+                .overrideClasspath(path)
+                .enableAllInfo()
                 .scan()
-                .getNamesOfClassesWithAnnotation(JEEConfComponent.class)
+                .getClassesWithAnnotation("JEEConfComponent")
                 .stream()
-                .map(this::loadClass)
+                .map(ClassInfo::getClass)
                 .filter(c -> c.getConstructors().length == 1);
     }
 

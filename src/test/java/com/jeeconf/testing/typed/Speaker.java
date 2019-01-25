@@ -1,8 +1,9 @@
-package com.jeeconf.testing.autosearch;
+package com.jeeconf.testing.typed;
 
 import com.jeeconf.annotations.JEEConfComponent;
 import com.jeeconf.annotations.JEEConfComponentType;
 
 @JEEConfComponent
-public class Sponsor {
+@JEEConfComponentType(Visitor.class)
+public class Speaker implements Visitor  {
 }
